@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- ============================================================
+     PUBLIC NAVBAR FRAGMENT
+     Usage: <div th:replace="~{fragments/navbar :: publicNav}"></div>
+     ============================================================ -->
+<nav th:fragment="publicNav" class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-gear-fill text-warning"></i>
+            <span>CarMod<span class="text-warning">Pro</span></span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/services}">Services</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <div sec:authorize="isAuthenticated()">
+                    <span sec:authorize="hasRole('CUSTOMER')">
+                        <a th:href="@{/customer/dashboard}" class="btn btn-outline-warning btn-sm me-2">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </span>
+                    <span sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/admin/dashboard}" class="btn btn-outline-warning btn-sm me-2">
+                            <i class="bi bi-shield-fill"></i> Admin
+                        </a>
+                    </span>
+                    <a th:href="@{/logout}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="btn btn-outline-light btn-sm me-2">Login</a>
+                    <a th:href="@{/register}" class="btn btn-warning btn-sm">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ============================================================
+     PUBLIC FOOTER FRAGMENT
+     ============================================================ -->
+<footer th:fragment="publicFooter" class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <h5 class="text-warning mb-3">
+                    <i class="bi bi-gear-fill"></i> CarMod<span class="text-white">Pro</span>
+                </h5>
+                <p class="text-muted small">Premium automotive customization platform. Transform your vehicle with expert-grade modifications and world-class service.</p>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="text-muted"><i class="bi bi-facebook fs-5"></i></a>
+                    <a href="#" class="text-muted"><i class="bi bi-instagram fs-5"></i></a>
+                    <a href="#" class="text-muted"><i class="bi bi-twitter-x fs-5"></i></a>
+                    <a href="#" class="text-muted"><i class="bi bi-youtube fs-5"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <h6 class="text-white mb-3">Quick Links</h6>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/}" class="footer-link">Home</a></li>
+                    <li><a th:href="@{/services}" class="footer-link">Services</a></li>
+                    <li><a th:href="@{/register}" class="footer-link">Register</a></li>
+                    <li><a th:href="@{/login}" class="footer-link">Login</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <h6 class="text-white mb-3">Services</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="footer-link">Exterior Mods</a></li>
+                    <li><a href="#" class="footer-link">Interior Mods</a></li>
+                    <li><a href="#" class="footer-link">Performance</a></li>
+                    <li><a href="#" class="footer-link">Audio &amp; Lighting</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                <h6 class="text-white mb-3">Contact</h6>
+                <ul class="list-unstyled text-muted small">
+                    <li class="mb-2"><i class="bi bi-geo-alt text-warning me-2"></i>123 Automotive Drive, Chennai</li>
+                    <li class="mb-2"><i class="bi bi-telephone text-warning me-2"></i>+91 98765 43210</li>
+                    <li class="mb-2"><i class="bi bi-envelope text-warning me-2"></i>info@carmodpro.com</li>
+                    <li><i class="bi bi-clock text-warning me-2"></i>Mon-Sat: 9AM - 7PM</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="border-secondary mt-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="text-muted small mb-0">&copy; 2024 CarModPro. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="text-muted small mb-0">Built with <i class="bi bi-heart-fill text-danger"></i> using Spring Boot</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     ALERT MESSAGES FRAGMENT
+     ============================================================ -->
+<div th:fragment="alerts">
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${warningMessage}" class="alert alert-warning alert-dismissible fade show d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <span th:text="${warningMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+
+<!-- ============================================================
+     STATUS BADGE FRAGMENT
+     Usage: <span th:replace="~{fragments/navbar :: statusBadge(status=${request.status})}"></span>
+     ============================================================ -->
+<span th:fragment="statusBadge(status)"
+      class="badge"
+      th:classappend="${status.name() == 'PENDING'} ? 'bg-warning text-dark' :
+                      (${status.name() == 'APPROVED'} ? 'bg-info text-dark' :
+                      (${status.name() == 'IN_PROGRESS'} ? 'bg-primary' :
+                      (${status.name() == 'COMPLETED'} ? 'bg-success' :
+                      (${status.name() == 'REJECTED'} ? 'bg-danger' : 'bg-secondary'))))"
+      th:text="${status.name().replace('_', ' ')}">
+</span>
+
+</html>

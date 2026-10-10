@@ -1,0 +1,308 @@
+/* ============================================================
+   CarModPro - Customer Dashboard & Views Stylesheet
+   ============================================================ */
+
+.customer-page {
+    background-color: var(--bg-main);
+    min-height: 100vh;
+}
+
+.customer-content {
+    padding-bottom: 3rem;
+}
+
+/* Dashboard Summary Cards */
+.dash-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.dash-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+    border-color: rgba(255, 183, 3, 0.4);
+}
+
+.dash-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 1.25rem;
+    flex-shrink: 0;
+}
+
+.dash-card-primary .dash-card-icon {
+    background: rgba(13, 110, 253, 0.15);
+    color: #3d8bfd;
+}
+
+.dash-card-warning .dash-card-icon {
+    background: rgba(255, 183, 3, 0.15);
+    color: var(--accent-gold);
+}
+
+.dash-card-info .dash-card-icon {
+    background: rgba(13, 202, 240, 0.15);
+    color: #0dcaf0;
+}
+
+.dash-card-success .dash-card-icon {
+    background: rgba(25, 135, 84, 0.15);
+    color: #20c997;
+}
+
+.dash-card-label {
+    font-size: 0.725rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.dash-card-value {
+    color: #ffffff;
+    font-weight: 800;
+    margin-bottom: 0;
+    font-size: 1.85rem;
+    line-height: 1.1;
+}
+
+.dash-card-link {
+    position: absolute;
+    right: 1.25rem;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: all 0.2s;
+}
+
+.dash-card:hover .dash-card-link {
+    color: var(--accent-gold);
+    transform: translateX(3px);
+}
+
+/* Content Container Card */
+.content-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.content-card-header {
+    background: rgba(10, 12, 18, 0.6);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.4rem;
+}
+
+.content-card-body {
+    padding: 1.4rem;
+}
+
+/* Data Table */
+.data-table {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
+.data-table th {
+    background: #0f121b;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem 1rem;
+}
+
+.data-table td {
+    background: transparent;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0.95rem 1rem;
+    vertical-align: middle;
+}
+
+.data-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Vehicle Mini Card */
+.vehicle-mini-card {
+    background: #0f121b;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    transition: border-color 0.2s;
+}
+
+.vehicle-mini-card:hover {
+    border-color: rgba(255, 183, 3, 0.4);
+}
+
+.vehicle-mini-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: rgba(255, 183, 3, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Vehicle Grid Card */
+.vehicle-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-gold);
+    box-shadow: var(--shadow-soft);
+}
+
+.vehicle-card-header {
+    background: #0f121b;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.vehicle-icon-bg {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: rgba(255, 183, 3, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vehicle-card-body {
+    padding: 1.25rem;
+}
+
+.vehicle-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed var(--border-subtle);
+}
+
+.vehicle-detail-row:last-child {
+    border-bottom: none;
+}
+
+.vehicle-card-footer {
+    background: #0f121b;
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Selectable Cards (Request Creation) */
+.vehicle-select-label {
+    background: #0f121b;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 0;
+}
+
+.btn-check:checked + .vehicle-select-label {
+    border-color: var(--accent-gold);
+    background: rgba(255, 183, 3, 0.08);
+}
+
+.service-select-card {
+    background: #0f121b;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    transition: all 0.2s;
+}
+
+.service-select-card.selected {
+    border-color: var(--accent-gold);
+    background: rgba(255, 183, 3, 0.06);
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--border-color);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-item i {
+    position: absolute;
+    left: -2rem;
+    top: 2px;
+    font-size: 1.1rem;
+}
+
+/* Star Rating */
+.star-rating {
+    display: inline-flex;
+    gap: 0.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.star-btn {
+    color: var(--text-muted);
+    transition: color 0.15s, transform 0.15s;
+}
+
+.star-btn.active, .star-btn:hover {
+    color: var(--accent-gold);
+    transform: scale(1.1);
+}
+
+/* Profile Avatar */
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 183, 3, 0.12);
+    border: 2px solid var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

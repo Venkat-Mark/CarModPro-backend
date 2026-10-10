@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Requests - CarModPro Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-page">
+<div class="admin-wrapper">
+    <div th:replace="~{fragments/layout :: adminSidebar('requests')}"></div>
+    <div class="admin-main">
+        <div th:replace="~{fragments/layout :: adminTopbar('Modification Requests')}"></div>
+        <div class="admin-content p-4">
+            <div th:replace="~{fragments/navbar :: alerts}"></div>
+
+            <!-- Filters -->
+            <div class="content-card mb-4">
+                <div class="content-card-body">
+                    <form th:action="@{/admin/requests}" method="get" class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label class="form-label text-muted small fw-semibold">SEARCH</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-secondary text-muted">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control" name="search"
+                                       th:value="${searchQuery}"
+                                       placeholder="Customer name, vehicle, registration...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small fw-semibold">STATUS</label>
+                            <select class="form-select" name="status">
+                                <option value="">All Statuses</option>
+                                <option th:each="s : ${statuses}" th:value="${s.name()}"
+                                        th:text="${s.name().replace('_', ' ')}"
+                                        th:selected="${s.name() == statusFilter}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-warning w-100">
+                                <i class="bi bi-funnel me-1"></i>Filter
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <a th:href="@{/admin/requests}" class="btn btn-outline-secondary w-100">Clear</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Requests Table -->
+            <div class="content-card">
+                <div class="content-card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-white mb-0">
+                        <i class="bi bi-list-task me-2 text-warning"></i>
+                        All Requests
+                        <span class="badge bg-secondary ms-2" th:text="${requests.totalElements}"></span>
+                    </h6>
+                </div>
+                <div class="content-card-body">
+                    <div th:if="${requests.isEmpty()}" class="empty-state py-5 text-center">
+                        <i class="bi bi-inbox fs-1 text-muted"></i>
+                        <p class="text-muted mt-2">No requests found.</p>
+                    </div>
+                    <div th:if="${!requests.isEmpty()}" class="table-responsive">
+                        <table class="table data-table">
+                            <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th>Customer</th>
+                                    <th>Vehicle</th>
+                                    <th>Date</th>
+                                    <th>Estimated</th>
+                                    <th>Final</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="req : ${requests.content}">
+                                    <td class="text-warning fw-semibold" th:text="${'#' + req.id}"></td>
+                                    <td>
+                                        <span class="text-white small" th:text="${req.customer.fullName}"></span>
+                                        <small class="d-block text-muted" th:text="${req.customer.email}"></small>
+                                    </td>
+                                    <td>
+                                        <span class="text-white small"
+                                              th:text="${req.vehicle.brand + ' ' + req.vehicle.model}"></span>
+                                        <small class="d-block text-muted"
+                                               th:text="${req.vehicle.registrationNumber}"></small>
+                                    </td>
+                                    <td class="text-muted small"
+                                        th:text="${#temporals.format(req.requestDate, 'dd MMM yyyy')}"></td>
+                                    <td class="text-white">
+                                        ₹<span th:text="${#numbers.formatDecimal(req.estimatedCost, 0, 'COMMA', 0, 'POINT')}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${req.finalCost != null}" class="text-success">
+                                            ₹<span th:text="${#numbers.formatDecimal(req.finalCost, 0, 'COMMA', 0, 'POINT')}"></span>
+                                        </span>
+                                        <span th:unless="${req.finalCost != null}" class="text-muted">—</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge"
+                                              th:classappend="${req.status.name() == 'PENDING'} ? 'bg-warning text-dark' :
+                                                              (${req.status.name() == 'APPROVED'} ? 'bg-info text-dark' :
+                                                              (${req.status.name() == 'IN_PROGRESS'} ? 'bg-primary' :
+                                                              (${req.status.name() == 'COMPLETED'} ? 'bg-success' :
+                                                              (${req.status.name() == 'REJECTED'} ? 'bg-danger' : 'bg-secondary'))))"
+                                              th:text="${req.status.name().replace('_', ' ')}">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/admin/requests/{id}(id=${req.id})}"
+                                           class="btn btn-sm btn-warning">
+                                            <i class="bi bi-eye me-1"></i>Manage
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        <nav th:if="${totalPages > 1}">
+                            <ul class="pagination justify-content-center mt-3">
+                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/admin/requests(page=${currentPage-1},status=${statusFilter},search=${searchQuery})}">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </a>
+                                </li>
+                                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                    class="page-item" th:classappend="${i == currentPage} ? 'active'">
+                                    <a class="page-link"
+                                       th:href="@{/admin/requests(page=${i},status=${statusFilter},search=${searchQuery})}"
+                                       th:text="${i + 1}"></a>
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/admin/requests(page=${currentPage+1},status=${statusFilter},search=${searchQuery})}">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>
